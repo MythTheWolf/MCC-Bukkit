@@ -1,0 +1,4 @@
+#Server address
+server: "localhost"
+#port on that server
+port: 6789

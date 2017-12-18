@@ -1,0 +1,13 @@
+name: MCCBukkit
+version: 1.0.0
+description: The socket client to connect this server to discord
+# We could place every author in the authors list, but chose not to for illustrative purposes
+# Also, having an author distinguishes that person as the project lead, and ensures their
+# name is displayed first
+author: MythTheWolf
+#authors: [Cogito, verrier, EvilSeph]
+#website: http://forums.bukkit.org/threads/MyPlugin.31337/
+ 
+main: com.myththewolf.MCCBukkit.Main
+#database: false
+#depend: [NewFire, FlameWire]
