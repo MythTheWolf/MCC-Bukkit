@@ -1,5 +1,6 @@
 package com.myththewolf.MCCBukkit.lib;
 
+import netscape.javascript.JSObject;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -28,7 +29,9 @@ public class SocketListener implements Runnable {
 
                 if (parse.isNull("packetType")) {
                     if (!parse.isNull("ID") && SocketRequest.JOBS.containsKey(parse.getString("ID"))) {
-                        SocketRequest.JOBS.get(parse.getString("ID")).whenResult(new SocketResult(new JSONObject(parse.getString("data"))));
+                        JSONObject cut = new JSONObject(parse.toString());
+                        cut.remove("ID");
+                        SocketRequest.JOBS.get(parse.getString("ID")).whenResult(new SocketResult(cut));
                         SocketRequest.JOBS.remove(parse.getString("ID"));
                     }
                     continue;
