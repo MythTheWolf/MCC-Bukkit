@@ -18,26 +18,28 @@ public class SocketListener implements Runnable {
 
     @Override
     public void run() {
-        try {
+        while (true) {
+            try {
+                BufferedReader inFromServer1 =
+                        new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+                String inFromServer = inFromServer1.readLine();
+                System.out.println("GOT PACKET--->" + inFromServer);
+                JSONObject parse = new JSONObject(inFromServer);
 
-            BufferedReader inFromServer1 =
-                    new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-            String inFromServer = inFromServer1.readLine();
-            System.out.println("GOT PACKET--->"+inFromServer);
-            JSONObject parse = new JSONObject(inFromServer);
-
-            if (parse.isNull("packetType")) {
-                if (!parse.isNull("ID") && SocketRequest.JOBS.containsKey(parse.getString("ID"))) {
-                    SocketRequest.JOBS.get(parse.getString("ID")).whenResult(new SocketResult(new JSONObject(parse.getString("data"))));
-                    SocketRequest.JOBS.remove(parse.getString("ID"));
+                if (parse.isNull("packetType")) {
+                    if (!parse.isNull("ID") && SocketRequest.JOBS.containsKey(parse.getString("ID"))) {
+                        SocketRequest.JOBS.get(parse.getString("ID")).whenResult(new SocketResult(new JSONObject(parse.getString("data"))));
+                        SocketRequest.JOBS.remove(parse.getString("ID"));
+                    }
+                    continue;
                 }
+                listners.forEach((key, val) -> {
+                    parse.remove("packetType");
+                    val.onPacketRecieived(parse, this);
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            listners.forEach((key, val) -> {
-                parse.remove("packetType");
-                val.onPacketRecieived(parse, this);
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
