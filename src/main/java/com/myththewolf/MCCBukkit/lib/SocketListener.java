@@ -25,8 +25,9 @@ public class SocketListener implements Runnable {
             String inFromServer = inFromServer1.readLine();
             JSONObject parse = new JSONObject(inFromServer);
             if (parse.isNull("packetType")) {
-                if (SocketRequest.JOBS.containsKey(parse.getString("ID"))) {
+                if (!parse.isNull("ID") && SocketRequest.JOBS.containsKey(parse.getString("ID"))) {
                     SocketRequest.JOBS.get(parse.getString("ID")).whenResult(new SocketResult(new JSONObject(parse.getString("data"))));
+                    SocketRequest.JOBS.remove(parse.getString("ID"));
                 }
             }
             listners.forEach((key, val) -> {
