@@ -60,7 +60,7 @@ public class SocketRequest {
             out.put("data", packet.toString());
             try {
                 DataOutputStream out2 = new DataOutputStream(connectionSocket.getOutputStream());
-                out2.writeBytes(out.toString());
+                out2.writeBytes(out.toString() + "\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }
