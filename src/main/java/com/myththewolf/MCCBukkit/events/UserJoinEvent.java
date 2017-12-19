@@ -9,16 +9,19 @@ import com.myththewolf.MCCBukkit.lib.StatusType;
 
 public class UserJoinEvent implements Listener {
 
-  public void onJoin(PlayerJoinEvent event) {
-    JSONObject packet = new JSONObject();
-    packet.put("packetType", "user-join");
-    packet.put("username", event.getPlayer().getName());
-    SocketRequest SR = new SocketRequest(Main.connectionSocket, packet);
-    SR.queue(result -> {
-      if (result.getStatus() != StatusType.SUCCESS) {
-        Main.getPlugin(Main.class).getLogger().severe("Packet delivery to server failed: "
-            + packet.toString() + "[Status: " + result.getRawResult() + "]");
-      }
-    });
-  }
+    public void onJoin(PlayerJoinEvent event) {
+        JSONObject packet = new JSONObject();
+        packet.put("packetType", "user-join");
+        packet.put("username", event.getPlayer().getName());
+        SocketRequest SR = new SocketRequest(Main.connectionSocket, packet);
+        SR.queue(result -> {
+            if (result.getStatus() != StatusType.SUCCESS) {
+                Main.getPlugin(Main.class).getLogger().severe("Packet delivery to server failed: "
+                        + packet.toString() + "[Status: " + result.getRawResult() + "]");
+            }else {
+                Main.getPlugin(Main.class).getLogger().info("Sent packet of type `user-join` to the bot!");
+            }
+        });
+
+    }
 }
