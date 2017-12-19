@@ -53,19 +53,22 @@ public class SocketRequest {
     public void whenCompleteOrError(SocketResultListener listener) {
         ExecutorService ex = Executors.newFixedThreadPool(20);
         Future<?> runner = ex.submit(() -> {
-            System.out.print("Exectuing packet deliver::" + this.packet.toString());
-            String uniqueID = UUID.randomUUID().toString();
-            JOBS.put(uniqueID, listener);
-            JSONObject out = new JSONObject();
-            out.put("ID", uniqueID);
-            out.put("data", packet.toString());
-            try {
-                DataOutputStream out2 = new DataOutputStream(connectionSocket.getOutputStream());
-                out2.writeBytes(out.toString() + "\n");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return;
+            Thread T = new Thread(() -> {
+                System.out.print("Exectuing packet deliver::" + this.packet.toString());
+                String uniqueID = UUID.randomUUID().toString();
+                JOBS.put(uniqueID, listener);
+                JSONObject out = new JSONObject();
+                out.put("ID", uniqueID);
+                out.put("data", packet.toString());
+                try {
+                    DataOutputStream out2 = new DataOutputStream(connectionSocket.getOutputStream());
+                    out2.writeBytes(out.toString() + "\n");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return;
+            });
+            T.start();
         });
         try {
             runner.get(10, TimeUnit.SECONDS);

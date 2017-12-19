@@ -23,7 +23,9 @@ public class SocketListener implements Runnable {
             BufferedReader inFromServer1 =
                     new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
             String inFromServer = inFromServer1.readLine();
+            System.out.println("GOT PACKET--->"+inFromServer);
             JSONObject parse = new JSONObject(inFromServer);
+
             if (parse.isNull("packetType")) {
                 if (!parse.isNull("ID") && SocketRequest.JOBS.containsKey(parse.getString("ID"))) {
                     SocketRequest.JOBS.get(parse.getString("ID")).whenResult(new SocketResult(new JSONObject(parse.getString("data"))));

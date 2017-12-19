@@ -51,7 +51,7 @@ public class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new UserChatEvent(), this);
         Bukkit.getPluginManager().registerEvents(new UserJoinEvent(), this);
         Bukkit.getPluginManager().registerEvents(new UserLeaveEvent(), this);
-   //     Bukkit.getScheduler().runTaskAsynchronously(this, new SocketListener(connectionSocket));
+        Bukkit.getScheduler().runTaskAsynchronously(this, new SocketListener(connectionSocket));
         SocketListener.registerPacketListener("message", new UserChatSocketListener());
     }
 }
