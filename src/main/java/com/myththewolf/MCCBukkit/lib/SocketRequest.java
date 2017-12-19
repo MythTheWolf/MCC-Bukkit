@@ -67,15 +67,18 @@ public class SocketRequest {
                 try {
                     DataOutputStream out2 = new DataOutputStream(connectionSocket.getOutputStream());
                     out2.writeBytes(out.toString() + "\n");
+                    connectionSocket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 return;
             });
             T.start();
+
         });
         try {
             runner.get(10, TimeUnit.SECONDS);
+
         } catch (Exception e) {
             JSONObject err = new JSONObject();
             err.put("status", "TIMEDOUT");
