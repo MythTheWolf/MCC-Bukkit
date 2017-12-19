@@ -45,7 +45,7 @@ public class SocketRequest {
         if (packet.isNull("packetType"))
             throw new IllegalStateException("Packets must define a scope");
         try {
-
+            System.out.println("New object!");
             this.connectionSocket = new Socket("70.139.52.7", 6789);
         } catch (IOException e) {
             e.printStackTrace();
