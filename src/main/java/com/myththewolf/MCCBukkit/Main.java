@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import com.myththewolf.MCCBukkit.events.UserChatEvent;
 import com.myththewolf.MCCBukkit.events.UserJoinEvent;
 import com.myththewolf.MCCBukkit.events.UserLeaveEvent;
+import com.myththewolf.MCCBukkit.lib.SocketListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONObject;
@@ -47,5 +48,6 @@ public class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new UserChatEvent(), this);
         Bukkit.getPluginManager().registerEvents(new UserJoinEvent(), this);
         Bukkit.getPluginManager().registerEvents(new UserLeaveEvent(), this);
+        Bukkit.getScheduler().runTaskAsynchronously(this, new SocketListener(connectionSocket));
     }
 }
