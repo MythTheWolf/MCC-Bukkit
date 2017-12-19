@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public class UserChatEvent implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-        System.out.println("packetChatOut");
+        System.out.println("packetChatOut:" + Main.connectionSocket.isClosed());
         JSONObject packet = new JSONObject();
         packet.put("packetType", "user-chat");
         packet.put("username", event.getPlayer().getName());
