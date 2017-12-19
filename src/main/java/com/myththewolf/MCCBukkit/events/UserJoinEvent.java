@@ -1,5 +1,6 @@
 package com.myththewolf.MCCBukkit.events;
 
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.json.JSONObject;
@@ -8,7 +9,7 @@ import com.myththewolf.MCCBukkit.lib.SocketRequest;
 import com.myththewolf.MCCBukkit.lib.StatusType;
 
 public class UserJoinEvent implements Listener {
-
+    @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         JSONObject packet = new JSONObject();
         packet.put("packetType", "user-join");
