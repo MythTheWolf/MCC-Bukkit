@@ -30,6 +30,7 @@ public class SocketRequest {
      * The socket connection to use
      */
     private Socket connectionSocket;
+    private String serverResponse;
 
     /**
      * Constructs a new SocketRequest
@@ -110,18 +111,21 @@ public class SocketRequest {
                 try {
                     DataOutputStream out = new DataOutputStream(connectionSocket.getOutputStream());
                     out.writeBytes(packet.toString() + "\n");
-                    BufferedReader inFromServer1 =
+                    BufferedReader inFromClient =
                             new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-                    String inFromServer = inFromServer1.readLine();
+
+
+                    serverResponse = inFromClient.readLine();
+                    System.out.print("RAW IN:::" + serverResponse);
                     try {
 
-                        JSONObject result = new JSONObject(inFromServer);
+                        JSONObject result = new JSONObject(serverResponse);
                         return new SocketResult(result);
                     } catch (JSONException e) {
-                        System.out.print(inFromServer);
-                       // e.printStackTrace();
+                        System.out.print(serverResponse);
+                        // e.printStackTrace();
                         JSONObject ob = new JSONObject();
-                        ob.put("response", inFromServer);
+                        ob.put("response", serverResponse);
                         ob.put("status", "BADRESPONSE");
                         return new SocketResult(ob);
                     }
