@@ -82,13 +82,12 @@ public class SocketRequest {
             try {
                 res = sendPacket().get(10, TimeUnit.SECONDS);
             } catch (InterruptedException | ExecutionException | TimeoutException e) {
+                e.printStackTrace();
                 JSONObject err = new JSONObject();
                 if (connectionSocket.isConnected()) {
                     err.put("status", "EMPTYRESPONSE");
-
                 } else {
                     err.put("status", "TIMEDOUT");
-
                 }
                 res = new SocketResult(err);
                 consumer.whenResult(res);
