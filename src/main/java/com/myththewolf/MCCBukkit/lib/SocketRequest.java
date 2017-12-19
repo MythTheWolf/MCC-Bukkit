@@ -54,7 +54,7 @@ public class SocketRequest {
         ExecutorService ex = Executors.newFixedThreadPool(20);
         Future<?> runner = ex.submit(() -> {
             Thread T = new Thread(() -> {
-
+                System.out.print("Sending out packet:" + packet.toString());
                 String uniqueID = UUID.randomUUID().toString();
                 JOBS.put(uniqueID, listener);
                 JSONObject out = new JSONObject();
