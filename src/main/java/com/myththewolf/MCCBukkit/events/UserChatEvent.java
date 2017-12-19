@@ -17,7 +17,7 @@ public class UserChatEvent implements Listener {
         packet.put("username", event.getPlayer().getName());
         packet.put("message", event.getMessage());
         SocketRequest SR = new SocketRequest(Main.connectionSocket, packet);
-        SR.queue(result -> {
+        SR.whenCompleteOrError(result -> {
             if (result.getStatus() != StatusType.SUCCESS) {
                 Main.getPlugin(Main.class).getLogger().severe("Packet delivery to server failed: "
                         + packet.toString() + "[Status: " + result.getRawResult() + "]");

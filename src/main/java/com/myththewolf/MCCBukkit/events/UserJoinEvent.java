@@ -15,7 +15,7 @@ public class UserJoinEvent implements Listener {
         packet.put("packetType", "user-join");
         packet.put("username", event.getPlayer().getName());
         SocketRequest SR = new SocketRequest(Main.connectionSocket, packet);
-        SR.queue(result -> {
+        SR.whenCompleteOrError(result -> {
             if (result.getStatus() != StatusType.SUCCESS) {
                 Main.getPlugin(Main.class).getLogger().severe("Packet delivery to server failed: "
                         + packet.toString() + "[Status: " + result.getRawResult() + "]");

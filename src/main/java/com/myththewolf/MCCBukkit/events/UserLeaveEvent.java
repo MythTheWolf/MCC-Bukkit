@@ -19,7 +19,7 @@ public class UserLeaveEvent implements Listener{
         packet.put("username", event.getPlayer().getName());
         SocketRequest SR;
         SR = new SocketRequest(Main.connectionSocket, packet);
-        SR.queue(result -> {
+        SR.whenCompleteOrError(result -> {
             if (result.getStatus() != StatusType.SUCCESS) {
                 Main.getPlugin(Main.class).getLogger().severe("Packet deliver failed: " + packet.toString() + "(Result: " + result.getRawResult() + ")");
             } else {
