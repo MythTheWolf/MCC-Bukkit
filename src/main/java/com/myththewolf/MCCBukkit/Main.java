@@ -20,7 +20,7 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         try {
             if (!getDataFolder().exists()) {
-                getDataFolder().mkdirs()
+                getDataFolder().mkdirs();
             }
             File file = new File(getDataFolder(), "config.yml");
             if (!file.exists()) {
