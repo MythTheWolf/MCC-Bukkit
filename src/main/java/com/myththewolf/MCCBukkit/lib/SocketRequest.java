@@ -76,6 +76,7 @@ public class SocketRequest {
             JSONObject err = new JSONObject();
             err.put("status", "TIMEDOUT");
             listener.whenResult(new SocketResult(err));
+            e.printStackTrace();
         }
     }
 }
