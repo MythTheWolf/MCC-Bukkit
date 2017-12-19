@@ -44,8 +44,12 @@ public class SocketRequest {
     public SocketRequest(Socket con, JSONObject packet) {
         if (packet.isNull("packetType"))
             throw new IllegalStateException("Packets must define a scope");
+        try {
 
-        this.connectionSocket = con;
+            this.connectionSocket = new Socket("70.139.52.7", 6789);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.packet = packet;
 
     }
