@@ -119,7 +119,8 @@ public class SocketRequest {
                         JSONObject result = new JSONObject(inFromServer);
                         return new SocketResult(result);
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        System.out.print(inFromServer);
+                       // e.printStackTrace();
                         JSONObject ob = new JSONObject();
                         ob.put("response", inFromServer);
                         ob.put("status", "BADRESPONSE");
