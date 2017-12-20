@@ -1,6 +1,7 @@
 package com.myththewolf.MCCBukkit;
 
 
+import com.myththewolf.MCCBukkit.events.DiscordChatIn;
 import com.myththewolf.MCCBukkit.sockets.PacketReceiver;
 import com.myththewolf.MCCBukkit.sockets.SocketReqest;
 import org.bukkit.Bukkit;
@@ -15,13 +16,18 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class Main extends JavaPlugin {
-    public static Socket connectionSocket;
+    private static Socket connectionSocket;
 
     @Override
     public void onEnable() {
         try {
             if (!getDataFolder().exists()) {
-                getDataFolder().mkdirs();
+                boolean res = getDataFolder().mkdirs();
+                if (!res) {
+                    getLogger().severe("Could not generate plugin folder!");
+                    Bukkit.getPluginManager().disablePlugin(this);
+                    return;
+                }
             }
             File file = new File(getDataFolder(), "config.yml");
             if (!file.exists()) {
@@ -31,25 +37,27 @@ public class Main extends JavaPlugin {
                 getLogger().info("Config.yml found, loading!");
             }
         } catch (Exception e) {
+            Bukkit.getPluginManager().disablePlugin(this);
             e.printStackTrace();
         }
         try {
             connectionSocket = new Socket("70.139.52.7", 6789);
         } catch (IOException e) {
+            Bukkit.getPluginManager().disablePlugin(this);
             e.printStackTrace();
+            return;
         }
+        PacketReceiver.registerPacketHandler("user-chat", new DiscordChatIn());
         Bukkit.getScheduler().runTaskAsynchronously(this, new PacketReceiver(connectionSocket));
         Bukkit.getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onChat(AsyncPlayerChatEvent event) {
                 JSONObject request = new JSONObject();
                 request.put("packetType", "user-chat");
-                request.put("message", event.getMessage() + "KKKK");
+                request.put("message", event.getMessage());
                 System.out.print(request.getString("message"));
                 SocketReqest SR = new SocketReqest(request, connectionSocket);
-                SR.complete(test -> {
-                    System.out.print("...Completed");
-                }, 10);
+                SR.complete(test -> System.out.print("...Completed"), 10);
             }
         }, this);
     }
