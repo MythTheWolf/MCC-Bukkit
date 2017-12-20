@@ -15,6 +15,8 @@ public class SocketReqest {
     public SocketReqest(JSONObject pack, Socket gateway) {
         this.connection = gateway;
         this.packet = pack;
+        System.out.print("CLOSED:::" + gateway.isClosed());
+        System.out.print("CONNECTED::" + gateway.isConnected());
     }
 
     public void complete(SocketResultListener listen, int timeout) {
