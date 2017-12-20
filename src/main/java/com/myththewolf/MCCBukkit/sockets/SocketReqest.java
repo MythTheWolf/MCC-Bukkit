@@ -36,7 +36,8 @@ public class SocketReqest {
         ExecutorService ex = Executors.newSingleThreadExecutor();
         return ex.submit(() -> {
             try {
-                packet.put("ID",ID);
+                packet.put("ID", ID);
+                System.out.println("Sending out packet:" + packet.toString());
                 PrintWriter toClient =
                         new PrintWriter(connection.getOutputStream(), true);
                 toClient.println(packet.toString());

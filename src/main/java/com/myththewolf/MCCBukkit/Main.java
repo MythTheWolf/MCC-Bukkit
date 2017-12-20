@@ -34,7 +34,7 @@ public class Main extends JavaPlugin {
             e.printStackTrace();
         }
         try {
-            connectionSocket = new Socket("70.139.52.7",6789);
+            connectionSocket = new Socket("70.139.52.7", 6789);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,10 +44,11 @@ public class Main extends JavaPlugin {
             public void onChat(AsyncPlayerChatEvent event) {
                 JSONObject request = new JSONObject();
                 request.put("packetType", "user-chat");
-                request.put("message", event.getMessage());
+                request.put("message", event.getMessage() + "KKKK");
+                System.out.print(request.getString("message"));
                 SocketReqest SR = new SocketReqest(request, connectionSocket);
                 SR.complete(test -> {
-                        System.out.print("...Completed");
+                    System.out.print("...Completed");
                 }, 10);
             }
         }, this);
