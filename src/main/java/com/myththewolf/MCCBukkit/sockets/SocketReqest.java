@@ -21,8 +21,9 @@ public class SocketReqest {
 
     public void complete(SocketResultListener listen, int timeout) {
         try {
-            submit().get(timeout, TimeUnit.SECONDS);
-            PacketReceiver.registerWaitingRequest(UUID.randomUUID().toString(), listen);
+            String ID = UUID.randomUUID().toString();
+            submit(ID).get(timeout, TimeUnit.SECONDS);
+            PacketReceiver.registerWaitingRequest(ID, listen);
         } catch (TimeoutException | InterruptedException | ExecutionException ex) {
             JSONObject resulter = new JSONObject();
             resulter.put("status", "INCOMPLETE");
@@ -31,10 +32,11 @@ public class SocketReqest {
         }
     }
 
-    private Future<?> submit() {
+    private Future<?> submit(String ID) {
         ExecutorService ex = Executors.newSingleThreadExecutor();
         return ex.submit(() -> {
             try {
+                packet.put("ID",ID);
                 PrintWriter toClient =
                         new PrintWriter(connection.getOutputStream(), true);
                 toClient.println(packet.toString());
