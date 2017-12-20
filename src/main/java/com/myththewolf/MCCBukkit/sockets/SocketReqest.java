@@ -1,11 +1,13 @@
 package com.myththewolf.MCCBukkit.sockets;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 import org.json.JSONObject;
 
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.UUID;
 import java.util.concurrent.*;
 
 public class SocketReqest {
@@ -15,13 +17,12 @@ public class SocketReqest {
     public SocketReqest(JSONObject pack, Socket gateway) {
         this.connection = gateway;
         this.packet = pack;
-        System.out.print("CLOSED:::" + gateway.isClosed());
-        System.out.print("CONNECTED::" + gateway.isConnected());
     }
 
     public void complete(SocketResultListener listen, int timeout) {
         try {
-            submit(listen).get(timeout, TimeUnit.SECONDS);
+            submit().get(timeout, TimeUnit.SECONDS);
+            PacketReceiver.registerWaitingRequest(UUID.randomUUID().toString(), listen);
         } catch (TimeoutException | InterruptedException | ExecutionException ex) {
             JSONObject resulter = new JSONObject();
             resulter.put("status", "INCOMPLETE");
@@ -30,7 +31,7 @@ public class SocketReqest {
         }
     }
 
-    private Future<?> submit(SocketResultListener list) {
+    private Future<?> submit() {
         ExecutorService ex = Executors.newSingleThreadExecutor();
         return ex.submit(() -> {
             try {
