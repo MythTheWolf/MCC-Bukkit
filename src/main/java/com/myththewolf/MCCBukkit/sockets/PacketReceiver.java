@@ -1,5 +1,6 @@
 package com.myththewolf.MCCBukkit.sockets;
 
+import com.myththewolf.MCCBukkit.Main;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -26,6 +27,14 @@ public class PacketReceiver implements Runnable {
                                 new InputStreamReader(connection.getInputStream()));
                 String data = fromServer.readLine();
                 JSONObject ob = new JSONObject(data);
+                if (!ob.isNull("ID") && ob.getString("ID").equals("&SUPER&")) {
+                    Main.getPlugin(Main.class).getLogger().severe("Server stated that a unparsable request was received.");
+                    Main.getPlugin(Main.class).getLogger().severe("This is unrecoverable, so the packet queue will be emptied");
+                    int size = jobs.size();
+                    jobs = new HashMap<>();
+                    Main.getPlugin(Main.class).getLogger().severe("Emptied the queue (" + size + " packets dropped)");
+                    continue;
+                }
                 if (ob.getString("packetType").equals("PACKET_RESULT") && jobs.containsKey(ob.getString("ID"))) {
                     JSONObject tmp = new JSONObject(ob.toString());
                     tmp.remove("packetType");
