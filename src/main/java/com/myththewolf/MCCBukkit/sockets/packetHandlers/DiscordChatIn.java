@@ -1,4 +1,4 @@
-package com.myththewolf.MCCBukkit.events;
+package com.myththewolf.MCCBukkit.sockets.packetHandlers;
 
 import com.myththewolf.MCCBukkit.sockets.SocketPacketHandler;
 import org.bukkit.Bukkit;

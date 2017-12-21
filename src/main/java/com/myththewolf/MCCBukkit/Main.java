@@ -1,7 +1,7 @@
 package com.myththewolf.MCCBukkit;
 
 
-import com.myththewolf.MCCBukkit.events.DiscordChatIn;
+import com.myththewolf.MCCBukkit.sockets.packetHandlers.DiscordChatIn;
 import com.myththewolf.MCCBukkit.sockets.PacketReceiver;
 import com.myththewolf.MCCBukkit.sockets.SocketReqest;
 import org.bukkit.Bukkit;
