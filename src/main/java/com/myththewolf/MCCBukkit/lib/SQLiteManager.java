@@ -27,8 +27,9 @@ public class SQLiteManager {
         try {
             // db parameters
             // create a connection to the database
-            conn = DriverManager.getConnection(fileURL);
+            conn = DriverManager.getConnection("jdbc:sqlite:" + fileURL);
             System.out.println("Connected to SQLite database");
+            checkTables();
         } catch (SQLException e) {
             e.printStackTrace();
         }
