@@ -10,11 +10,11 @@ import java.net.Socket;
 import java.util.UUID;
 import java.util.concurrent.*;
 
-public class SocketReqest {
+public class SocketRequest {
     private Socket connection;
     private JSONObject packet;
 
-    public SocketReqest(JSONObject pack, Socket gateway) {
+    public SocketRequest(JSONObject pack, Socket gateway) {
         this.connection = gateway;
         this.packet = pack;
     }

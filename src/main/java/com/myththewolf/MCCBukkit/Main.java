@@ -1,9 +1,10 @@
 package com.myththewolf.MCCBukkit;
 
 
+import com.myththewolf.MCCBukkit.lib.SQLiteManager;
 import com.myththewolf.MCCBukkit.sockets.packetHandlers.DiscordChatIn;
 import com.myththewolf.MCCBukkit.sockets.PacketReceiver;
-import com.myththewolf.MCCBukkit.sockets.SocketReqest;
+import com.myththewolf.MCCBukkit.sockets.SocketRequest;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +18,7 @@ import java.net.Socket;
 
 public class Main extends JavaPlugin {
     private static Socket connectionSocket;
-
+    public static SQLiteManager PLAYER_DB;
     @Override
     public void onEnable() {
         try {
@@ -42,6 +43,12 @@ public class Main extends JavaPlugin {
         }
         try {
             connectionSocket = new Socket("70.139.52.7", 6789);
+            File dataDir = new File(getDataFolder() + File.separator + "database");
+            if (!dataDir.exists()) {
+                dataDir.mkdirs();
+            }
+            PLAYER_DB = new SQLiteManager(dataDir.getPath() + File.separator + "players.db");
+            PLAYER_DB.connect();
         } catch (IOException e) {
             Bukkit.getPluginManager().disablePlugin(this);
             e.printStackTrace();
@@ -56,9 +63,13 @@ public class Main extends JavaPlugin {
                 request.put("packetType", "user-chat");
                 request.put("message", event.getMessage());
                 System.out.print(request.getString("message"));
-                SocketReqest SR = new SocketReqest(request, connectionSocket);
+                SocketRequest SR = new SocketRequest(request, connectionSocket);
                 SR.complete(test -> System.out.print("...Completed"), 10);
             }
         }, this);
+    }
+
+    public static Socket getConnectionSocket() {
+        return connectionSocket;
     }
 }
