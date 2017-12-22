@@ -1,6 +1,7 @@
 package com.myththewolf.MCCBukkit;
 
 
+import com.myththewolf.MCCBukkit.commands.linkdiscord;
 import com.myththewolf.MCCBukkit.lib.SQLiteManager;
 import com.myththewolf.MCCBukkit.sockets.packetHandlers.DiscordChatIn;
 import com.myththewolf.MCCBukkit.sockets.PacketReceiver;
@@ -19,6 +20,7 @@ import java.net.Socket;
 public class Main extends JavaPlugin {
     private static Socket connectionSocket;
     public static SQLiteManager PLAYER_DB;
+
     @Override
     public void onEnable() {
         try {
@@ -67,6 +69,7 @@ public class Main extends JavaPlugin {
                 SR.complete(test -> System.out.print("...Completed"), 10);
             }
         }, this);
+        getCommand("linkmc").setExecutor(new linkdiscord());
     }
 
     public static Socket getConnectionSocket() {

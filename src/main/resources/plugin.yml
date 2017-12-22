@@ -7,7 +7,10 @@ description: The socket client to connect this server to discord
 author: MythTheWolf
 #authors: [Cogito, verrier, EvilSeph]
 #website: http://forums.bukkit.org/threads/MyPlugin.31337/
- 
+commands:
+ linkmc:
+     description: Links your account to MC
+     aliases: []
 main: com.myththewolf.MCCBukkit.Main
 #database: false
 #depend: [NewFire, FlameWire]
