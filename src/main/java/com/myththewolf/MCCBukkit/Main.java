@@ -2,6 +2,7 @@ package com.myththewolf.MCCBukkit;
 
 
 import com.myththewolf.MCCBukkit.commands.linkdiscord;
+import com.myththewolf.MCCBukkit.events.UserJoinEvent;
 import com.myththewolf.MCCBukkit.lib.SQLiteManager;
 import com.myththewolf.MCCBukkit.sockets.packetHandlers.DiscordChatIn;
 import com.myththewolf.MCCBukkit.sockets.PacketReceiver;
@@ -51,6 +52,7 @@ public class Main extends JavaPlugin {
             }
             PLAYER_DB = new SQLiteManager(dataDir.getPath() + File.separator + "players.db");
             PLAYER_DB.connect();
+
         } catch (IOException e) {
             Bukkit.getPluginManager().disablePlugin(this);
             e.printStackTrace();
@@ -69,6 +71,7 @@ public class Main extends JavaPlugin {
                 SR.complete(test -> System.out.print("...Completed"), 10);
             }
         }, this);
+        Bukkit.getPluginManager().registerEvents(new UserJoinEvent(),this);
         getCommand("linkmc").setExecutor(new linkdiscord());
     }
 
