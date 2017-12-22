@@ -1,11 +1,7 @@
 package com.myththewolf.MCCBukkit.lib;
 
 import java.io.File;
-import java.sql.Connection;
-
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class SQLiteManager {
     private Connection conn = null;
@@ -28,6 +24,7 @@ public class SQLiteManager {
             // db parameters
             // create a connection to the database
             conn = DriverManager.getConnection("jdbc:sqlite:" + fileURL);
+            DatabaseMetaData meta = conn.getMetaData();
             System.out.println("Connected to SQLite database");
             checkTables();
         } catch (SQLException e) {
